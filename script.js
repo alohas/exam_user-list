@@ -8,15 +8,15 @@ var table = new Tabulator("#user-list", {
     put(cell._cell.row.data, cell._cell.row.data._id);
   },
   dataEdited: function(data) {},
-  layout: "fitColumns", //fit columns to width of table (optional)
+  layout: "fitColumns",
   columns: [
     //Define Table Columns
     {
       title: "Username",
       field: "username",
       validator: ["unique", "required"],
-      editor: "input",
-      width: 150
+      editor: "input"
+      //width: 150
     },
     {
       title: "Password",
@@ -24,6 +24,17 @@ var table = new Tabulator("#user-list", {
       validator: "required",
       editor: "input",
       align: "left"
+    },
+    {
+      title: "Email",
+      field: "email",
+      validator: ["unique", "required", "regex:\\.com$", "string"],
+      editor: "input",
+      editorParams: {
+        elementAttributes: {
+          maxlength: "10"
+        }
+      }
     },
     {
       title: "Coins",
@@ -38,15 +49,33 @@ var table = new Tabulator("#user-list", {
       }
     },
     {
-      title: "Email",
-      field: "email",
-      validator: ["unique", "required", "regex:\\@", "string"],
-      editor: "input",
+      title: "Streak",
+      field: "streak",
+      validator: "integer",
+      editor: "number",
       editorParams: {
-        search: true,
-        elementAttributes: {
-          maxlength: "10" //set the maximum character length of the input element to 10 characters
-        }
+        verticalNavigation: "editor",
+        min: 0,
+        max: 100,
+        step: 1
+      }
+    },
+    {
+      title: "Country",
+      field: "country",
+      editor: "input"
+    },
+    {
+      title: "Suspended",
+      field: "suspended",
+      formatter: "tickCross",
+      sorter: "boolean",
+      editor: true,
+      formatterParams: {
+        allowEmpty: true,
+        allowTruthy: true,
+        tickElement: "<i class='fa fa-check'></i>",
+        crossElement: "<i class='fa fa-times'></i>"
       }
     }
   ]
