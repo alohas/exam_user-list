@@ -2,9 +2,13 @@ const dbLink = "https://rpsexam-61a3.restdb.io/rest/registeredusers";
 const key = "5ddfb3cc4658275ac9dc201e";
 let tabledata = [];
 
+var deleter = function() {
+  return "Remove this user";
+};
+
 var table = new Tabulator("#user-list", {
   cellEdited: function(cell) {
-    console.log(cell);
+    //console.log(cell);
     put(cell._cell.row.data, cell._cell.row.data._id);
   },
   dataEdited: function(data) {},
@@ -49,18 +53,6 @@ var table = new Tabulator("#user-list", {
       }
     },
     {
-      title: "Streak",
-      field: "streak",
-      validator: "integer",
-      editor: "number",
-      editorParams: {
-        verticalNavigation: "editor",
-        min: 0,
-        max: 100,
-        step: 1
-      }
-    },
-    {
       title: "Country",
       field: "country",
       editor: "input"
@@ -76,6 +68,13 @@ var table = new Tabulator("#user-list", {
         allowTruthy: true,
         tickElement: "<i class='fa fa-check'></i>",
         crossElement: "<i class='fa fa-times'></i>"
+      }
+    },
+    {
+      formatter: deleter,
+      align: "center",
+      cellClick: function(e, cell) {
+        remove(cell.getRow(), cell.getData());
       }
     }
   ]
@@ -93,7 +92,7 @@ function get() {
     .then(e => e.json())
     .then(data => {
       display(data);
-      console.log(data);
+      //console.log(data);
     });
 }
 
@@ -110,7 +109,7 @@ function put(data, id) {
   console.log(data);
 
   const json = JSON.stringify(data);
-  console.log(json);
+  //console.log(json);
   fetch(`${dbLink}/${id}`, {
     method: "put",
     headers: {
@@ -122,6 +121,24 @@ function put(data, id) {
   })
     .then(d => d.json())
     .then(t => console.log(t));
+}
+
+function remove(row, data) {
+  console.log(row, data);
+  let message = `Do you wish to remove ${data.username}`;
+  let result = window.confirm(message);
+  console.log(result);
+  if (result) {
+    row.delete();
+    fetch(dbLink + "/" + data._id, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "x-apikey": key,
+        "cache-control": "no-cache"
+      }
+    });
+  }
 }
 
 window.addEventListener("DOMContentLoaded", event => {
