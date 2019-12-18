@@ -1,3 +1,37 @@
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  color: #5dfdcb !important;
+
+  background-image: radial-gradient(#251343, #0f0819);
+}
+
 main {
-  margin: 10% 5%;
+  margin: 30px 10%;
+}
+
+h1 {
+  font-size: 57px;
+  margin-bottom: 0;
+  font-weight: 300;
+}
+
+h2 {
+  font-weight: 300;
+  margin-top: 0;
+}
+
+.tabulator,
+.tabulator * {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #5dfdcb !important;
+}
+
+.tabulator-row {
+  border-bottom: 1px solid #aaa;
 }
